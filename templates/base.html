@@ -36,37 +36,7 @@
               <img src="{% static 'image/banner-microsite.jpg' %}" class="d-block w-100" alt="...">
               <button type="button" class="btn btn-warning btn-lg showdata">Show Data COVID-19</button>
       <div class="row dataCovid">
-      
-          <div class="col-md-4 my-5 mx-n5">
-                    <div class="card w-75" style="width: 18rem;">
-                        <img src="${m.Poster}" class="card-img-top">
-                        <div class="card-body">
-                            <h4 class="card-title">${m.Title}</h4>
-                            <h6 class="card-subtitle mb-2 text-muted">${m.Year}</h6>
-                           <a href="#" class="btn btn-primary modal-detail" data-toggle="modal" data-target="#modalTriger" data-id= "${m.imdbID}">Show detail</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 my-5 ">
-                    <div class="card w-75" style="width: 18rem;">
-                        <img src="${m.Poster}" class="card-img-top">
-                        <div class="card-body">
-                            <h4 class="card-title">${m.Title}</h4>
-                            <h6 class="card-subtitle mb-2 text-muted">${m.Year}</h6>
-                           <a href="#" class="btn btn-primary modal-detail" data-toggle="modal" data-target="#modalTriger" data-id= "${m.imdbID}">Show detail</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 my-5">
-                    <div class="card w-75" style="width: 18rem;">
-                        <img src="${m.Poster}" class="card-img-top">
-                        <div class="card-body">
-                            <h4 class="card-title">${m.Title}</h4>
-                            <h6 class="card-subtitle mb-2 text-muted">${m.Year}</h6>
-                           <a href="#" class="btn btn-primary modal-detail" data-toggle="modal" data-target="#modalTriger" data-id= "${m.imdbID}">Show detail</a>
-                        </div>
-                    </div>
-                </div>
+
         </div>
           
       </div>
@@ -81,6 +51,82 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
             integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous">
         </script>
-        <script src="{% static 'js/api.js' %}"></script>
+        {% comment %} <script src="{% static 'js/api.js' %}"></script> {% endcomment %}
+
+        <script>
+        
+        $(window).scroll(function () {
+    let scroll = $(window).scrollTop();
+    console.log(scroll)
+
+    if (scroll > 250) {
+
+        $('.navbar').addClass('bg-dark');
+
+    } else {
+        $('.navbar').removeClass('bg-dark');
+    }
+
+})
+
+
+document.addEventListener('click', function (e) {
+    if (e.target.classList.contains('showdata')) {
+        showdata()
+    }
+
+})
+
+function showdata() {
+    $.ajax({
+        url: `https://api.rootnet.in/covid19-in/stats/latest`,
+
+        success: (m) => {
+            let data = m.data.summary;
+            let dataNegara = m.data.regional;
+            // card berfungsi untuk menampung data api kedalam html
+            card = ""
+            // template literal berfungsi menampung data kedalam html atau membuat tag html dan menyimpan data di html
+            card +=
+                `
+            <div class="card w-100" style="width: 18rem;">
+                    <div class="card-body m-auto">
+                        <h2 class="card-title ">Data Dunia</h2>
+                        <h4 class="card-title"> total : ${data.total}</h4>
+                        <h6 class="card-subtitle mb-2 text-muted">discharged :${data.discharged}</h6>
+                        <h6 class="card-subtitle mb-2 text-muted">death :${data.deaths}</h6>
+                    </div>
+            </div>
+            `
+            //  ini sama tetapi yang ini perlu di looping
+            dataNegara.forEach(m => {
+                card +=
+                    `
+                <div class="col-md-4 my-5 mx-n5">
+                    <div class="card w-75" style="width: 18rem; height:250px;">
+                        <div class="card-body">
+                            <h5 class="card-title">location :${m.loc}</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">total :${m.totalConfirmed}</h6>
+                            <h6 class="card-subtitle mb-2 text-muted">death :${m.deaths}</h6>
+                            <h6 class="card-subtitle mb-2 text-muted">discharged :${m.discharged}</h6>
+                           <a href="#" class="btn btn-primary modal-detail" data-toggle="modal" data-target="#modalTriger" data-id= "${m.imdbID}">Show detail</a>
+                        </div>
+                    </div>
+                </div>
+                `
+            })
+            //  menampilkan data html yang sudah dirakit ke html aslinya
+            //  $(dataCovid) adalah class / jquery pan
+            $('.dataCovid').html(card)
+        },
+        error: (e) => {
+            alert(e);
+        }
+
+    })
+}
+        
+        
+        </script>
        
 </html>
