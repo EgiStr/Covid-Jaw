@@ -1,5 +1,6 @@
 
-{% load static %}<!DOCTYPE html>
+{% load static %}
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -40,7 +41,8 @@
 </div>
       </div>
       <div class="col col-lg-5">
-        <form class="px-4 py-3">
+        <form class="px-4 py-3" method="post">
+        {% csrf_token %}
           <div class="form-group">
             <label for="exampleDropdownFormEmail1">username</label>
             <input type="text" class="form-control" name='username' id="exampleDropdownFormEmail1" placeholder="email@example.com"   >

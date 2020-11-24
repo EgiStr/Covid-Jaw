@@ -25,14 +25,9 @@
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-          <div class="navbar-nav">
-            <a class="nav-link pl-5 pr-3" href="#">Home <span class="sr-only">(current)</span></a>
-            <a class="nav-link pr-3" href="#">Data</a>
-            <a class="nav-link pr-3" href="#">About</a>
-          </div>
+        <div class="collapse navbar-collapse " id="navbarNavAltMarkup">
           <div class="navbar-nav ml-auto">
-            <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">login</button>
+            <a class="btn btn-outline-primary my-2 my-sm-0" href="{% url 'appCovid:login' %}">login</a>
           </div>
         </div>
             
@@ -40,9 +35,41 @@
     <div class="carousel">
               <img src="{% static 'image/banner-microsite.jpg' %}" class="d-block w-100" alt="...">
               <button type="button" class="btn btn-warning btn-lg showdata">Show Data COVID-19</button>
-    </div>
-    <div class="dataCovid">
-
+      <div class="row dataCovid">
+      
+          <div class="col-md-4 my-5 mx-n5">
+                    <div class="card w-75" style="width: 18rem;">
+                        <img src="${m.Poster}" class="card-img-top">
+                        <div class="card-body">
+                            <h4 class="card-title">${m.Title}</h4>
+                            <h6 class="card-subtitle mb-2 text-muted">${m.Year}</h6>
+                           <a href="#" class="btn btn-primary modal-detail" data-toggle="modal" data-target="#modalTriger" data-id= "${m.imdbID}">Show detail</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 my-5 ">
+                    <div class="card w-75" style="width: 18rem;">
+                        <img src="${m.Poster}" class="card-img-top">
+                        <div class="card-body">
+                            <h4 class="card-title">${m.Title}</h4>
+                            <h6 class="card-subtitle mb-2 text-muted">${m.Year}</h6>
+                           <a href="#" class="btn btn-primary modal-detail" data-toggle="modal" data-target="#modalTriger" data-id= "${m.imdbID}">Show detail</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 my-5">
+                    <div class="card w-75" style="width: 18rem;">
+                        <img src="${m.Poster}" class="card-img-top">
+                        <div class="card-body">
+                            <h4 class="card-title">${m.Title}</h4>
+                            <h6 class="card-subtitle mb-2 text-muted">${m.Year}</h6>
+                           <a href="#" class="btn btn-primary modal-detail" data-toggle="modal" data-target="#modalTriger" data-id= "${m.imdbID}">Show detail</a>
+                        </div>
+                    </div>
+                </div>
+        </div>
+          
+      </div>
     </div>
 
 
@@ -55,4 +82,5 @@
             integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous">
         </script>
         <script src="{% static 'js/api.js' %}"></script>
+       
 </html>
