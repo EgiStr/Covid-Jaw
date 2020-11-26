@@ -1,13 +1,7 @@
 .carousel{
     position: absolute;
-    z-index: -1;
-    height: 672px;
     width: 100%;
-}
-.btn-warning{
-    margin-top: -300px;
-    margin-left: 42%;
-}
+} 
 
 .bagan1{
     background-image:   linear-gradient(red, yellow);
@@ -22,10 +16,10 @@
 .label{
     margin-top: 20%;
 }
-.card{
+/* .card{
     margin-top: 50px;
     padding: 20px;
     margin-left:30% ;
     margin-right: 30%;
     box-shadow: 0 0 5px 5px rgba(0,0,0, 0.5);
-}
+} */

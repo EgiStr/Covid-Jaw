@@ -1,69 +1,45 @@
-$(window).scroll(function () {
+$(window).scroll(() => {
     let scroll = $(window).scrollTop();
-    console.log(scroll)
-
     if (scroll > 250) {
 
-        $('.navbar').addClass('bg-dark');
-
+        $('.navbar').addClass('bg-secondary navbar-dark');
+        $('#btn').addClass('btn-primary').removeClass('btn-outline-primary');
     } else {
-        $('.navbar').removeClass('bg-dark');
+        $('.navbar').removeClass('bg-secondary navbar-dark');
+        $('#btn').removeClass('btn-primary').addClass('btn-outline-primary');
+
     }
 
 })
 
-
-document.addEventListener('click', function (e) {
-    if (e.target.classList.contains('showdata')) {
-        showdata()
-    }
-
-})
-
-function showdata() {
+$(function () {
     $.ajax({
-        url: `https://api.rootnet.in/covid19-in/stats/latest`,
-
+        type: 'GET',
+        url: 'https://api.rootnet.in/covid19-in/stats/latest',
         success: (m) => {
-            let data = m.data.summary;
-            let dataNegara = m.data.regional;
-            // card berfungsi untuk menampung data api kedalam html
-            card = ""
-            // template literal berfungsi menampung data kedalam html atau membuat tag html dan menyimpan data di html
-            card +=
-                `
-            <div class="card w-100" style="width: 18rem;">
-                    <div class="card-body">
-                        <h4 class="card-title"> total : ${data.total}</h4>
-                        <h6 class="card-subtitle mb-2 text-muted">discharged :${data.discharged}</h6>
-                        <h6 class="card-subtitle mb-2 text-muted">death :${data.deaths}</h6>
-                    </div>
-            </div>
-            `
-            //  ini sama tetapi yang ini perlu di looping
-            dataNegara.forEach(m => {
-                card +=
-                    `
-                <div class="col-md-4 my-5 mx-n5">
-                    <div class="card w-75" style="width: 18rem;">
-                        <div class="card-body">
-                            <h4 class="card-title">location :${m.loc}</h4>
-                            <h6 class="card-subtitle mb-2 text-muted">total :${m.totalConfirmed}</h6>
-                            <h6 class="card-subtitle mb-2 text-muted">death :${m.deaths}</h6>
-                            <h6 class="card-subtitle mb-2 text-muted">discharged :${m.discharged}</h6>
-                           <a href="#" class="btn btn-primary modal-detail" data-toggle="modal" data-target="#modalTriger" data-id= "${m.imdbID}">Show detail</a>
-                        </div>
-                    </div>
-                </div>
-                `
-            })
-            //  menampilkan data html yang sudah dirakit ke html aslinya
-            //  $(dataCovid) adalah class / jquery pan
-            $('.dataCovid').html(card)
-        },
-        error: (e) => {
-            alert(e);
-        }
+            let summary = m.data.summary
+            let region = m.data.regional
+            txt = ""
+            txt += `<tr><td>total</td><td> ${summary.total} </td></tr>
+                         <tr><td>confirmed Cases Indian</td><td> ${summary.confirmedCasesIndian} </td></tr>
+                         <tr><td>confirmed Cases Foreign</td><td> ${summary.confirmedCasesForeign} </td></tr>
+                         <tr><td>discharged</td><td> ${summary.discharged} </td></tr>
+                         <tr><td>deaths</td><td> ${summary.deaths} </td></tr>
+                         <tr><td>confirmed But Location Unidentified</td><td> ${summary.confirmedButLocationUnidentified} </td></tr>`
+            $('#table').html(txt);
 
-    })
-}
+            document.getElementById("app").innerHTML = `
+            ${region.map((region, key) => {
+                return `<tr>
+                            <td>${key + 1}</td>
+                            <td>${region.loc}</td>
+                            <td>${region.confirmedCasesIndian}</td>
+                            <td>${region.confirmedCasesForeign}</td>
+                            <td>${region.discharged}</td>
+                            <td>${region.deaths}</td>
+                            <td>${region.totalConfirmed}</td>
+                         </tr>`
+            }).join('')}`
+        }
+    });
+});
