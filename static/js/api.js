@@ -15,31 +15,55 @@ $(window).scroll(() => {
 $(function () {
     $.ajax({
         type: 'GET',
-        url: 'https://api.rootnet.in/covid19-in/stats/latest',
+        url: 'https://api.covid19api.com/summary',
         success: (m) => {
-            let summary = m.data.summary
-            let region = m.data.regional
+            let summary = m.Global
+            let region = m.Countries
             txt = ""
-            txt += `<tr><td>total</td><td> ${summary.total} </td></tr>
-                         <tr><td>confirmed Cases Indian</td><td> ${summary.confirmedCasesIndian} </td></tr>
-                         <tr><td>confirmed Cases Foreign</td><td> ${summary.confirmedCasesForeign} </td></tr>
-                         <tr><td>discharged</td><td> ${summary.discharged} </td></tr>
-                         <tr><td>deaths</td><td> ${summary.deaths} </td></tr>
-                         <tr><td>confirmed But Location Unidentified</td><td> ${summary.confirmedButLocationUnidentified} </td></tr>`
+            txt += `    
+            <tr><td>NEW COMFIRMED</td><td> ${summary.NewConfirmed} </td></tr>
+            <tr><td>total</td><td> ${summary.TotalConfirmed} </td></tr>
+                         <tr><td>new Deaths</td><td> ${summary.NewDeaths} </td></tr>
+                         <tr><td>new Recoveryed</td><td> ${summary.NewRecovered} </td></tr>
+                         <tr><td>deaths</td><td> ${summary.TotalDeaths} </td></tr>
+                         `
             $('#table').html(txt);
+            let temp = `
+            <thead class="thead-dark">
+                <tr>
+                  <th scope="col">No</th>
+                  <th scope="col">Date</th>
+                  <th scope="col">Country</th>
+                  <th scope="col">NewConfirmed</th>
+                  <th scope="col">TotalConfirmed</th>
+                  <th scope="col">NewDeaths</th>
+                  <th scope="col">TotalDeaths</th>
+                  <th scope="col">NewRecovered</th>
+                  <th scope="col">TotalRecovered</th>
+                </tr>
+            </thead>
+            `
 
-            document.getElementById("app").innerHTML = `
-            ${region.map((region, key) => {
-                return `<tr>
+
+            region.map((m, key) => {
+
+                temp += `<tr>
+                           
                             <td>${key + 1}</td>
-                            <td>${region.loc}</td>
-                            <td>${region.confirmedCasesIndian}</td>
-                            <td>${region.confirmedCasesForeign}</td>
-                            <td>${region.discharged}</td>
-                            <td>${region.deaths}</td>
-                            <td>${region.totalConfirmed}</td>
+                            <td>${m.Date}</td>
+                            <td>${m.Country}</td>
+                            <td>${m.NewConfirmed}</td>
+                            <td>${m.TotalConfirmed}</td>
+                            <td>${m.NewDeaths}</td>
+                            <td>${m.TotalDeaths}</td>
+                            <td>${m.NewRecovered}</td>
+                            <td>${m.TotalRecovered}</td>
                          </tr>`
-            }).join('')}`
+
+                return temp
+            })
+            document.getElementById("app").innerHTML = temp
+
         }
     });
 });
