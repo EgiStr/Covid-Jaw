@@ -51,7 +51,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 ROOT_URLCONF = 'covid.urls'
 
@@ -121,8 +120,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATIC_HOST = os.environ.get('DJANGO_STATIC_HOST', '')
-STATIC_URL = STATIC_HOST + '/static/'
+STATIC_URL = '/static/'
+
 MEDIA_URL = '/media/'
 
 STATIC_DIRS = [
